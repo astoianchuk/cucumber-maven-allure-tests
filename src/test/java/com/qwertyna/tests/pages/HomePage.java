@@ -26,35 +26,34 @@ public class HomePage {
     @FindBy(how = How.CLASS_NAME, using = "cookiesBarClose")
     private WebElement cookiesBar;
 
-    public HomePage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public HomePage() {
+        PageFactory.initElements(TestUtil.driver, this);
     }
 
-    public void inputToSearchField(String input){
+    public void inputToSearchField(String input) {
         searchField.sendKeys(input);
     }
 
     public void clickSearchButton() {
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver,120);
+        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 120);
         wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-searchmain")));
         searchBtn.click();
     }
 
 
     public void clickFirstItem() {
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver,120);
+        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 120);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("detailsLink")));
-//document.getElementById("offers_table").getElementsByClassName("wrap")[0].getElementsByClassName("detailsLink")
         List<WebElement> el = arr.findElements(By.className("wrap"));
         el.get(0).findElement(By.className("detailsLink")).click();
     }
 
     public void aceptCookie() {
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver,120);
+        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 120);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("cookiesBarClose")));
-       if(cookiesBar.isDisplayed()) {
-           cookiesBar.click();
-       }
+        if (cookiesBar.isDisplayed()) {
+            cookiesBar.click();
+        }
 
 
     }
