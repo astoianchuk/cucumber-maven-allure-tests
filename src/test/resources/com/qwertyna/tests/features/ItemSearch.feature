@@ -11,3 +11,4 @@ Feature: Item search by specific field(s)
     Examples:
       | searchQuery | field       | fieldValue |
       | телевизор   | Вид техники | Телевизоры |
+

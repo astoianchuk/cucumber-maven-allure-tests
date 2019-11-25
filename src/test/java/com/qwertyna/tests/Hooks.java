@@ -1,5 +1,6 @@
 package com.qwertyna.tests;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,5 +15,10 @@ public class Hooks {
         ChromeOptions options = new ChromeOptions();
 
         TestUtil.driver = new ChromeDriver();
+    }
+
+    //@After
+    public void closeDriver(){
+        TestUtil.driver.close();
     }
 }
