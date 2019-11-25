@@ -1,7 +1,7 @@
 package com.qwertyna.tests.steps;
 
 import com.qwertyna.tests.TestUtil;
-import com.qwertyna.tests.pages.HomePage;
+import com.qwertyna.tests.pages.SearchPage;
 import com.qwertyna.tests.pages.ItemPage;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -10,7 +10,7 @@ import cucumber.api.java.en.When;
 import org.junit.Assert;
 
 public class Stepdefs {
-    private HomePage homePage = new HomePage();
+    private SearchPage homePage = new SearchPage();
     private ItemPage itemPage = new ItemPage();
 
     @Given("I navigate to url {string}")
@@ -43,13 +43,9 @@ public class Stepdefs {
     }
 
 
-    @Then("I click next page until offer price < {string} or page count ={int}")
+    @Then("I click next page until offer price < {string} or page count ={int} and verify")
     public void iClickNextPageUntilOfferPriceOrPageCount(String price, int pageCount) {
         Assert.assertTrue(homePage.checkOfferPriceExist(price, pageCount));
     }
 
-    @Then("I verify that on the first {int} pages of the usual announcements at least one TV with a price> {string}")
-    public void iVerifyThatOnTheFirstPagesOfTheUsualAnnouncementslThereIsAtLeastTVWithAPrice(int pageCount, String price) {
-        Assert.assertTrue(homePage.checkOfferPriceExist(price, pageCount));
-    }
 }

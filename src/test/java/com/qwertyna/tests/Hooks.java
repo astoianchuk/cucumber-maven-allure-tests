@@ -17,7 +17,7 @@ public class Hooks {
         TestUtil.driver = new ChromeDriver();
     }
 
-    //@After
+    @After
     public void closeDriver(){
         TestUtil.driver.close();
     }
