@@ -1,6 +1,6 @@
 package com.qwertyna.tests.pages;
 
-import com.qwertyna.tests.TestUtil;
+import com.qwertyna.tests.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -32,7 +32,7 @@ public class SearchPage {
     private WebElement cookiesBar;
 
     public SearchPage() {
-        PageFactory.initElements(TestUtil.driver, this);
+        PageFactory.initElements(DriverManager.getInstance().driver, this);
     }
 
     public void inputToSearchField(String input) {
@@ -40,7 +40,7 @@ public class SearchPage {
     }
 
     public void clickSearchButton() {
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 120);
+        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
         wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-searchmain")));
         searchBtn.click();
     }
@@ -51,14 +51,14 @@ public class SearchPage {
     }
 
     private WebElement getFirstItemFromSearchResult() {
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 120);
+        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("detailsLink")));
         regularListItems = regularOfers.findElements(By.className("wrap"));
         return regularListItems.get(0).findElement(By.className("detailsLink"));
     }
 
     public void aceptCookie() {
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 120);
+        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("cookiesBarClose")));
         if (cookiesBar.isDisplayed()) {
             cookiesBar.click();
@@ -66,9 +66,9 @@ public class SearchPage {
     }
 
     public boolean checkOfferPriceExist(String price, int pageCount) {
-        for (int i = 1; i < pageCount; i++) {
+        for (int i = 1; i <= pageCount; i++) {
             if (offerPriceExistOnPage(price)) return true;
-            clickNextButton();
+            if (i != pageCount) clickNextButton();
         }
         return false;
     }
@@ -76,22 +76,22 @@ public class SearchPage {
     private void clickNextButton() {
         WebDriverWait wait;
         try {
-            wait = new WebDriverWait(TestUtil.driver, 120);
+            wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a")));
-            WebElement nextBtn = TestUtil.driver.findElement(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a"));
+            WebElement nextBtn = DriverManager.getInstance().driver.findElement(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a"));
             nextBtn.click();
         } catch (RuntimeException err) {
-            TestUtil.driver.navigate().refresh();
-            wait = new WebDriverWait(TestUtil.driver, 120);
+            DriverManager.getInstance().driver.navigate().refresh();
+            wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a")));
-            WebElement nextBtn = TestUtil.driver.findElement(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a"));
+            WebElement nextBtn = DriverManager.getInstance().driver.findElement(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a"));
             nextBtn.click();
         }
     }
 
     private boolean offerPriceExistOnPage(String price) {
         regularListItems = null;
-        WebDriverWait wait = new WebDriverWait(TestUtil.driver, 180);
+        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 180);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("wrap")));
         regularListItems = regularOfers.findElements(By.className("wrap"));
 

@@ -1,8 +1,8 @@
 package com.qwertyna.tests.steps;
 
-import com.qwertyna.tests.TestUtil;
-import com.qwertyna.tests.pages.SearchPage;
+import com.qwertyna.tests.DriverManager;
 import com.qwertyna.tests.pages.ItemPage;
+import com.qwertyna.tests.pages.SearchPage;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -14,14 +14,14 @@ public class Stepdefs {
     private ItemPage itemPage = new ItemPage();
 
     @Given("I navigate to url {string}")
-    public void i_navigate_to_url(String string) {
-        System.out.println("Navigate to https://www.olx.ua page");
-        TestUtil.driver.navigate().to("https://www.olx.ua");
+    public void iNavigateToUrl(String url) {
+        System.out.println("Navigate to " + url);
+        DriverManager.getInstance().driver.navigate().to(url);
         homePage.aceptCookie();
     }
 
     @When("I enter {string} to search field")
-    public void i_enter_to_search_field(String string) {
+    public void iEnterToSearchField(String string) {
         homePage.inputToSearchField(string);
     }
 
@@ -32,20 +32,18 @@ public class Stepdefs {
 
     @And("I select first found item")
     public void iSelectFirstFoundObject() {
-        TestUtil.driver.manage().deleteAllCookies();
+        DriverManager.getInstance().driver.manage().deleteAllCookies();
         homePage.clickFirstItem();
         homePage.aceptCookie();
     }
 
     @Then("I verify that found item contain field {string} and value {string}")
-    public void i_verify_that_item_s_contain_field_and_value(String field, String fieldValue) {
+    public void iVerifyThatFoundItemContainFieldAndValue(String field, String fieldValue) {
         Assert.assertTrue(itemPage.isContainCorrectFieldValue(field, fieldValue));
     }
-
 
     @Then("I click next page until offer price < {string} or page count ={int} and verify")
     public void iClickNextPageUntilOfferPriceOrPageCount(String price, int pageCount) {
         Assert.assertTrue(homePage.checkOfferPriceExist(price, pageCount));
     }
-
 }

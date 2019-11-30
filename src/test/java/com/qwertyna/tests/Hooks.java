@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Hooks {
-    private TestUtil util = new TestUtil();
 
     @Before
     public void initializeTest() {
@@ -14,11 +13,11 @@ public class Hooks {
         System.setProperty("webdriver.chrome.driver", "C:\\libs\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
 
-        TestUtil.driver = new ChromeDriver();
+        DriverManager.getInstance().driver = new ChromeDriver();
     }
 
     @After
-    public void closeDriver(){
-        TestUtil.driver.close();
+    public void closeDriver() {
+        DriverManager.getInstance().destroyDriver();
     }
 }

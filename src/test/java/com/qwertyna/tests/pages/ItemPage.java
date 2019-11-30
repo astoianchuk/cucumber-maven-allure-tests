@@ -1,6 +1,6 @@
 package com.qwertyna.tests.pages;
 
-import com.qwertyna.tests.TestUtil;
+import com.qwertyna.tests.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,7 +15,7 @@ public class ItemPage {
     private WebElement detailsPanel;
 
     public ItemPage() {
-        PageFactory.initElements(TestUtil.driver, this);
+        PageFactory.initElements(DriverManager.getInstance().driver, this);
     }
 
     public boolean isContainCorrectFieldValue(String field, String value) {
