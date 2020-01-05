@@ -17,6 +17,7 @@ Automated UI test cases for https://www.olx.ua/ (Cucumber Java)
 
 ## Running
 * ```mvn test```
+* ```mvn allure:report```
 
 ## Author
 anastasia.stoianchuk@gmail.com 2019
