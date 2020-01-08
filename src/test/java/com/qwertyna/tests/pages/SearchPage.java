@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class SearchPage {
 
@@ -66,9 +67,12 @@ public class SearchPage {
     }
 
     public boolean checkOfferPriceExist(String price, int pageCount) {
+
         for (int i = 1; i <= pageCount; i++) {
+            System.out.println("Check page: " + i);
             if (offerPriceExistOnPage(price)) return true;
             if (i != pageCount) clickNextButton();
+            System.out.println("Complete check page: " + i);
         }
         return false;
     }
@@ -95,20 +99,22 @@ public class SearchPage {
         wait.until(ExpectedConditions.elementToBeClickable(By.className("wrap")));
         regularListItems = regularOfers.findElements(By.className("wrap"));
 
-        for (WebElement el : regularListItems) {
-            int intPrice = 0;
-            try {
-                intPrice = getIntPrice(el.findElement(By.className("price")).getText());
-            } catch (NoSuchElementException | StaleElementReferenceException npe) {
-                continue;
-            }
-            //TODO: temporary sout. todo delete next line during next code refactor
-            System.out.println(intPrice);
-            if (intPrice > Integer.parseInt(price)) {
-                return true;
-            }
+        Stream<Integer> foundElements = regularListItems.stream()
+                .map(el -> getIntPrice(getPriceElementText(el)))
+                .filter(intPrice -> intPrice > Integer.parseInt(price))
+                .peek(System.out::println);
+
+        return foundElements.count() > 0;
+    }
+
+    private String getPriceElementText(WebElement el)
+    {
+        try {
+           return ((WebElement)el).findElement(By.className("price")).getText();
+        } catch (NoSuchElementException | StaleElementReferenceException ignored) {
+
         }
-        return false;
+        return " ";
     }
 
     private int getIntPrice(String strPrice) {
