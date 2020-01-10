@@ -8,8 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -48,8 +46,6 @@ public class SearchPage {
     }
 
     public void clickSearchButton() {
-        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-        wait.until(ExpectedConditions.elementToBeClickable(searchButtonElement));
         searchBtn.click();
     }
 
@@ -59,15 +55,11 @@ public class SearchPage {
     }
 
     private WebElement getFirstItemFromSearchResult() {
-        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-        wait.until(ExpectedConditions.elementToBeClickable(detailsLinkElement));
         regularListItems = regularOfers.findElements(wrapElement);
         return regularListItems.get(0).findElement(detailsLinkElement);
     }
 
     public void aceptCookie() {
-        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-        wait.until(ExpectedConditions.elementToBeClickable(closeCookieButtonElement));
         if (cookiesBar.isDisplayed()) {
             cookiesBar.click();
         }
@@ -85,16 +77,11 @@ public class SearchPage {
     }
 
     private void clickNextButton() {
-        WebDriverWait wait;
         try {
-            wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-            wait.until(ExpectedConditions.elementToBeClickable(nextBtnElement));
             WebElement nextBtn = DriverManager.getInstance().driver.findElement(nextBtnElement);
             nextBtn.click();
         } catch (RuntimeException err) {
             DriverManager.getInstance().driver.navigate().refresh();
-            wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-            wait.until(ExpectedConditions.elementToBeClickable(nextBtnElement));
             WebElement nextBtn = DriverManager.getInstance().driver.findElement(nextBtnElement);
             nextBtn.click();
         }
@@ -102,8 +89,6 @@ public class SearchPage {
 
     private boolean offerPriceExistOnPage(String price) {
         regularListItems = null;
-        WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 180);
-        wait.until(ExpectedConditions.elementToBeClickable(wrapElement));
         regularListItems = regularOfers.findElements(wrapElement);
 
         Stream<Integer> foundElements = regularListItems.stream()

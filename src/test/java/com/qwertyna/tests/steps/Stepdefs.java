@@ -40,7 +40,7 @@ public class Stepdefs {
 
     @Then("I verify that found {string} contain field {string} and value {string}")
     public void iVerifyThatFoundItemContainFieldAndValue(String item, String field, String fieldValue) {
-        Assert.assertTrue(item + "is not contain field " + fieldValue + " or " + field,
+        Assert.assertTrue(item + " is not contain field " + fieldValue + " or " + field,
                 itemPage.isContainCorrectFieldValue(field, fieldValue));
     }
 
