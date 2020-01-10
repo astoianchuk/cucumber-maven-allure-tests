@@ -32,14 +32,16 @@ public class Stepdefs {
 
     @And("I select first found item")
     public void iSelectFirstFoundObject() {
+        //TODO: Do I need add Asert true "first item exist"
         DriverManager.getInstance().driver.manage().deleteAllCookies();
         homePage.clickFirstItem();
         homePage.aceptCookie();
     }
 
-    @Then("I verify that found item contain field {string} and value {string}")
-    public void iVerifyThatFoundItemContainFieldAndValue(String field, String fieldValue) {
-        Assert.assertTrue(itemPage.isContainCorrectFieldValue(field, fieldValue));
+    @Then("I verify that found {string} contain field {string} and value {string}")
+    public void iVerifyThatFoundItemContainFieldAndValue(String item, String field, String fieldValue) {
+        Assert.assertTrue(item + "is not contain field " + fieldValue + " or " + field,
+                itemPage.isContainCorrectFieldValue(field, fieldValue));
     }
 
     @Then("I click next page until offer price < {string} or page count ={int} and verify")
