@@ -18,6 +18,13 @@ import java.util.stream.Stream;
 
 public class SearchPage {
 
+    private By searchButtonElement = By.id("submit-searchmain");
+    private By detailsLinkElement = By.className("detailsLink");
+    private By wrapElement = By.className("wrap");
+    private By closeCookieButtonElement = By.className("cookiesBarClose");
+    private By nextBtnElement = By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a");
+    private By priceElement = By.className("price");
+
     @FindBy(how = How.ID, using = "headerSearch")
     private WebElement searchField;
 
@@ -42,7 +49,7 @@ public class SearchPage {
 
     public void clickSearchButton() {
         WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-searchmain")));
+        wait.until(ExpectedConditions.elementToBeClickable(searchButtonElement));
         searchBtn.click();
     }
 
@@ -53,14 +60,14 @@ public class SearchPage {
 
     private WebElement getFirstItemFromSearchResult() {
         WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-        wait.until(ExpectedConditions.elementToBeClickable(By.className("detailsLink")));
-        regularListItems = regularOfers.findElements(By.className("wrap"));
-        return regularListItems.get(0).findElement(By.className("detailsLink"));
+        wait.until(ExpectedConditions.elementToBeClickable(detailsLinkElement));
+        regularListItems = regularOfers.findElements(wrapElement);
+        return regularListItems.get(0).findElement(detailsLinkElement);
     }
 
     public void aceptCookie() {
         WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-        wait.until(ExpectedConditions.elementToBeClickable(By.className("cookiesBarClose")));
+        wait.until(ExpectedConditions.elementToBeClickable(closeCookieButtonElement));
         if (cookiesBar.isDisplayed()) {
             cookiesBar.click();
         }
@@ -81,14 +88,14 @@ public class SearchPage {
         WebDriverWait wait;
         try {
             wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a")));
-            WebElement nextBtn = DriverManager.getInstance().driver.findElement(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a"));
+            wait.until(ExpectedConditions.elementToBeClickable(nextBtnElement));
+            WebElement nextBtn = DriverManager.getInstance().driver.findElement(nextBtnElement);
             nextBtn.click();
         } catch (RuntimeException err) {
             DriverManager.getInstance().driver.navigate().refresh();
             wait = new WebDriverWait(DriverManager.getInstance().driver, 120);
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a")));
-            WebElement nextBtn = DriverManager.getInstance().driver.findElement(By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a"));
+            wait.until(ExpectedConditions.elementToBeClickable(nextBtnElement));
+            WebElement nextBtn = DriverManager.getInstance().driver.findElement(nextBtnElement);
             nextBtn.click();
         }
     }
@@ -96,8 +103,8 @@ public class SearchPage {
     private boolean offerPriceExistOnPage(String price) {
         regularListItems = null;
         WebDriverWait wait = new WebDriverWait(DriverManager.getInstance().driver, 180);
-        wait.until(ExpectedConditions.elementToBeClickable(By.className("wrap")));
-        regularListItems = regularOfers.findElements(By.className("wrap"));
+        wait.until(ExpectedConditions.elementToBeClickable(wrapElement));
+        regularListItems = regularOfers.findElements(wrapElement);
 
         Stream<Integer> foundElements = regularListItems.stream()
                 .map(el -> getIntPrice(getPriceElementText(el)))
@@ -110,7 +117,7 @@ public class SearchPage {
     private String getPriceElementText(WebElement el)
     {
         try {
-           return ((WebElement)el).findElement(By.className("price")).getText();
+           return ((WebElement)el).findElement(priceElement).getText();
         } catch (NoSuchElementException | StaleElementReferenceException ignored) {
 
         }

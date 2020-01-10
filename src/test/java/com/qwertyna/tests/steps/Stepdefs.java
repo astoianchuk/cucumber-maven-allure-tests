@@ -44,6 +44,6 @@ public class Stepdefs {
 
     @Then("I click next page until offer price < {string} or page count ={int} and verify")
     public void iClickNextPageUntilOfferPriceOrPageCount(String price, int pageCount) {
-        Assert.assertTrue(homePage.checkOfferPriceExist(price, pageCount));
+        Assert.assertTrue("Offer price >= "+ price +" on first "+ pageCount + " pages not exist ",homePage.checkOfferPriceExist(price, pageCount));
     }
 }
