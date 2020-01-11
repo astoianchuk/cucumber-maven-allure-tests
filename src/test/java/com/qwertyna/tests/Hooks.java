@@ -1,14 +1,20 @@
 package com.qwertyna.tests;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Attachment;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Hooks {
+
+    private HooksHelper hooksHelper = new HooksHelper();
 
     @Before
     public void initializeTest() {
@@ -20,8 +26,15 @@ public class Hooks {
     }
 
     @After
-    public void closeDriver() {
-
-        DriverManager.getInstance().destroyDriver();
+    public void testComplete(Scenario scenario) throws IOException {
+        hooksHelper.clearAndCloseBrowser();
     }
+
+    @After("@makeScreenshotIfFailed")
+    public void makeScreenshot(Scenario scenario) throws IOException {
+       hooksHelper.attachScreenShot(scenario);
+    }
+
+
+
 }

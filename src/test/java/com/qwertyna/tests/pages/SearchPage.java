@@ -1,10 +1,8 @@
 package com.qwertyna.tests.pages;
 
 import com.qwertyna.tests.DriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
+import com.qwertyna.tests.WebDriverHelper;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
@@ -77,14 +75,9 @@ public class SearchPage {
     }
 
     private void clickNextButton() {
-        try {
-            WebElement nextBtn = DriverManager.getInstance().driver.findElement(nextBtnElement);
-            nextBtn.click();
-        } catch (RuntimeException err) {
-            DriverManager.getInstance().driver.navigate().refresh();
-            WebElement nextBtn = DriverManager.getInstance().driver.findElement(nextBtnElement);
-            nextBtn.click();
-        }
+        WebDriver driver = DriverManager.getInstance().driver;
+        WebDriverHelper.waitElementToBeClickable(nextBtnElement);
+        driver.findElement(nextBtnElement).click();
     }
 
     private boolean offerPriceExistOnPage(String price) {
@@ -99,10 +92,9 @@ public class SearchPage {
         return foundElements.count() > 0;
     }
 
-    private String getPriceElementText(WebElement el)
-    {
+    private String getPriceElementText(WebElement el) {
         try {
-           return ((WebElement)el).findElement(priceElement).getText();
+            return ((WebElement) el).findElement(priceElement).getText();
         } catch (NoSuchElementException | StaleElementReferenceException ignored) {
 
         }

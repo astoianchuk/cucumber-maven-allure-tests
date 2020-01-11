@@ -18,6 +18,7 @@ public class DriverManager {
 
     void destroyDriver() {
         if (driver != null) {
+            driver.close();
             driver.quit();
         }
     }

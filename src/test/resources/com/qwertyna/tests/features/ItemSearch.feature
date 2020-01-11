@@ -1,3 +1,4 @@
+@makeScreenshotIfFailed
 Feature: Item search by specific field
   This test find product by search Query and verifying that
   found first element in sections "regular ads" contains specific field and value
