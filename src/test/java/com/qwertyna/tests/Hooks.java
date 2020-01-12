@@ -3,38 +3,29 @@ package com.qwertyna.tests;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Attachment;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class Hooks {
 
     private HooksHelper hooksHelper = new HooksHelper();
+    private WebDriverHelper driverHelper = new WebDriverHelper();
 
     @Before
     public void initializeTest() {
-        System.out.println("Openning the browser: Chrome");
-        WebDriverManager.chromedriver().setup();
-        DriverManager.getInstance().driver = new ChromeDriver();
-        DriverManager.getInstance().driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-
+        //mvn -Dbrowser=safari clean verify
+        driverHelper.webDriverSetup();
     }
 
-    @After
+    @After()
     public void testComplete(Scenario scenario) throws IOException {
-        hooksHelper.clearAndCloseBrowser();
+        driverHelper.clearAndCloseBrowser();
     }
 
-    @After("@makeScreenshotIfFailed")
+    @After(value = "@makeScreenshotIfFailed", timeout = 0L, order = 0)
     public void makeScreenshot(Scenario scenario) throws IOException {
-       hooksHelper.attachScreenShot(scenario);
+        hooksHelper.attachScreenShot(scenario);
     }
-
 
 
 }
