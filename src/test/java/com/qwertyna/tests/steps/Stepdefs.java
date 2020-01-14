@@ -1,6 +1,6 @@
 package com.qwertyna.tests.steps;
 
-import com.qwertyna.tests.DriverManager;
+import com.qwertyna.tests.utils.DriverManager;
 import com.qwertyna.tests.pages.ItemPage;
 import com.qwertyna.tests.pages.SearchPage;
 import cucumber.api.java.en.And;
@@ -43,7 +43,6 @@ public class Stepdefs {
         Assert.assertTrue(item + " is not contain field " + fieldValue + " or " + field,
                 itemPage.isContainCorrectFieldValue(field, fieldValue));
     }
-
 
     @Then("I click next page until offer price < {string} or page count ={int} and verify")
     public void iClickNextPageUntilOfferPriceOrPageCount(String price, int pageCount) {

@@ -1,5 +1,6 @@
 package com.qwertyna.tests;
 
+import com.qwertyna.tests.utils.DriverManager;
 import cucumber.api.Scenario;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
@@ -13,7 +14,6 @@ class HooksHelper {
         if (scenario.isFailed()) {
             makeScreenshot();
         }
-        // else clearAndCloseBrowser();
     }
 
     @Attachment(value = "Attachment Screenshot", type = "image/png")

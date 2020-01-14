@@ -1,5 +1,6 @@
 package com.qwertyna.tests;
 
+import com.qwertyna.tests.utils.WebDriverHelper;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -13,12 +14,11 @@ public class Hooks {
 
     @Before
     public void initializeTest() {
-        //mvn -Dbrowser=safari clean verify
         driverHelper.webDriverSetup();
     }
 
     @After()
-    public void testComplete(Scenario scenario) throws IOException {
+    public void testComplete(Scenario scenario) {
         driverHelper.clearAndCloseBrowser();
     }
 

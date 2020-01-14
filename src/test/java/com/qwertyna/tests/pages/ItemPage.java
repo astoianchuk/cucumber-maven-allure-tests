@@ -1,6 +1,6 @@
 package com.qwertyna.tests.pages;
 
-import com.qwertyna.tests.DriverManager;
+import com.qwertyna.tests.utils.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

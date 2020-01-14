@@ -1,11 +1,10 @@
-package com.qwertyna.tests;
+package com.qwertyna.tests.utils;
 
 import org.openqa.selenium.WebDriver;
 
 public class DriverManager {
     private static DriverManager instance;
     public WebDriver driver;
-//TODO waitForExist, waitForVisible
     private DriverManager() {
     }
 

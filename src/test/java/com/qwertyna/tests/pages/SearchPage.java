@@ -1,7 +1,7 @@
 package com.qwertyna.tests.pages;
 
-import com.qwertyna.tests.DriverManager;
-import com.qwertyna.tests.WebDriverHelper;
+import com.qwertyna.tests.utils.DriverManager;
+import com.qwertyna.tests.utils.WebDriverHelper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -14,12 +14,11 @@ import java.util.stream.Stream;
 
 public class SearchPage {
 
-    private By searchButtonElement = By.id("submit-searchmain");
-    private By detailsLinkElement = By.className("detailsLink");
-    private By wrapElement = By.className("wrap");
-    private By closeCookieButtonElement = By.className("cookiesBarClose");
-    private By nextBtnElement = By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a");
-    private By priceElement = By.className("price");
+    private By detailsLinkLocator = By.className("detailsLink");
+    private By wrapLocator = By.className("wrap");
+    private By nextBtnLocator = By.xpath("//*[@id=\"body-container\"]/div[3]/div/div[5]/span[17]/a");
+    private By priceLocator = By.className("price");
+    private By pagePreloaderLocator = By.className("listOverlay");
 
     @FindBy(how = How.ID, using = "headerSearch")
     private WebElement searchField;
@@ -53,8 +52,8 @@ public class SearchPage {
     }
 
     private WebElement getFirstItemFromSearchResult() {
-        regularListItems = regularOfers.findElements(wrapElement);
-        return regularListItems.get(0).findElement(detailsLinkElement);
+        regularListItems = regularOfers.findElements(wrapLocator);
+        return regularListItems.get(0).findElement(detailsLinkLocator);
     }
 
     public void aceptCookie() {
@@ -67,8 +66,11 @@ public class SearchPage {
 
         for (int i = 1; i <= pageCount; i++) {
             System.out.println("Check page: " + i);
+            regularListItems = null;
+            regularListItems = regularOfers.findElements(wrapLocator);
             if (offerPriceExistOnPage(price)) return true;
             if (i != pageCount) clickNextButton();
+            WebDriverHelper.waitUntilPageContentLoaded(pagePreloaderLocator, 5);
             System.out.println("Complete check page: " + i);
         }
         return false;
@@ -76,17 +78,18 @@ public class SearchPage {
 
     private void clickNextButton() {
         WebDriver driver = DriverManager.getInstance().driver;
-        WebDriverHelper.waitElementToBeClickable(nextBtnElement);
-        driver.findElement(nextBtnElement).click();
+        WebDriverHelper.waitElementToBeClickable(nextBtnLocator, 120);
+        driver.findElement(nextBtnLocator).click();
     }
 
     private boolean offerPriceExistOnPage(String price) {
-        regularListItems = null;
-        regularListItems = regularOfers.findElements(wrapElement);
 
         Stream<Integer> foundElements = regularListItems.stream()
                 .map(el -> getIntPrice(getPriceElementText(el)))
-                .filter(intPrice -> intPrice > Integer.parseInt(price))
+                //TODO need for Debug next line
+                .peek(System.out::println)
+                .filter(intPrice -> (intPrice > Integer.parseInt(price)))
+                //TODO need for Debug next line
                 .peek(System.out::println);
 
         return foundElements.count() > 0;
@@ -94,9 +97,11 @@ public class SearchPage {
 
     private String getPriceElementText(WebElement el) {
         try {
-            return ((WebElement) el).findElement(priceElement).getText();
-        } catch (NoSuchElementException | StaleElementReferenceException ignored) {
-
+            return el.findElement(priceLocator).getText();
+        } catch (StaleElementReferenceException ignored) {
+            System.out.println("ELEMENT NOT FOUND StaleElementReferenceException");
+        } catch (NoSuchElementException error) {
+            System.out.println("ELEMENT NOT FOUND NoSuchElementException");
         }
         return " ";
     }
