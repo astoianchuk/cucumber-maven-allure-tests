@@ -1,10 +1,12 @@
 # olx-tests
-Automated UI test cases for https://www.olx.ua/ (Cucumber Java)
+Automated UI tests for https://www.olx.ua/ (Cucumber Java)
+Tests can be executing parallel using cucumber4 feature
 
 ## Usage:
 * [Git](https://git-scm.com/)
 * Java 8 or above
 * Apache Maven 3.6.0 or above
+* Cucumber 4 or above
 * [Cucumber plugin](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java/)
 * Support 5 browsers, Chrome browser by default
 
