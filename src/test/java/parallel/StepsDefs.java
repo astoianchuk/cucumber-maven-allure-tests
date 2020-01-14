@@ -1,22 +1,22 @@
-package com.qwertyna.tests.steps;
+package parallel;
 
-import com.qwertyna.tests.utils.DriverManager;
 import com.qwertyna.tests.pages.ItemPage;
 import com.qwertyna.tests.pages.SearchPage;
+import com.qwertyna.tests.DriverManager;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 
-public class Stepdefs {
+public class StepsDefs {
     private SearchPage homePage = new SearchPage();
     private ItemPage itemPage = new ItemPage();
 
     @Given("I navigate to url {string}")
     public void iNavigateToUrl(String url) {
         System.out.println("Navigate to " + url);
-        DriverManager.getInstance().driver.navigate().to(url);
+        DriverManager.getInstance().getDriver().navigate().to(url);
         homePage.aceptCookie();
     }
 
@@ -33,7 +33,7 @@ public class Stepdefs {
     @And("I select first found item")
     public void iSelectFirstFoundObject() {
         //TODO: Do I need add Asert true "first item exist"
-        DriverManager.getInstance().driver.manage().deleteAllCookies();
+        DriverManager.getInstance().getDriver().manage().deleteAllCookies();
         homePage.clickFirstItem();
         homePage.aceptCookie();
     }

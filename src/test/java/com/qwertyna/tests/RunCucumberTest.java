@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
         "io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm",
         "pretty",
         "html:target/cucumber-reports/cucumber-pretty",
-        "json:target/cucumber-reports/CucumberTestReport.json"})
+        "json:target/cucumber-reports/CucumberTestReport.json"},
+        glue = {"parallel"})
 public class RunCucumberTest {
 }

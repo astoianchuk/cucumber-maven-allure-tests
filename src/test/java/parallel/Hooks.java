@@ -1,6 +1,6 @@
-package com.qwertyna.tests;
+package parallel;
 
-import com.qwertyna.tests.utils.DriverManager;
+import com.qwertyna.tests.DriverManager;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -15,23 +15,20 @@ public class Hooks {
 
     @Before
     public void initializeTest() {
-        //TODO change: def browser take from congig.properties System.getProperty("defaultBrowser");
-
         @Nullable
         String browserStr = System.getProperty("browser");
         if (browserStr == null) browserStr = DEF_BROWSER;
         DriverManager.getInstance().driverInit(browserStr);
     }
 
-    @After
-    public void testComplete(Scenario scenario) {
-        DriverManager.getInstance().driverDestroy();
-    }
-
-    @After(value = "@makeScreenshotIfFailed", timeout = 0L, order = 0)
+    @After(value = "@onTestCompleteWithScreenshot", timeout = 0L, order = 0)
     public void makeScreenshot(Scenario scenario) throws IOException {
         hooksHelper.attachScreenShot(scenario);
     }
 
+    @After(value = "@onTestComplete", timeout = 0L, order = 1)
+    public void testComplete(Scenario scenario) {
+        DriverManager.getInstance().driverDestroy();
+    }
 
 }

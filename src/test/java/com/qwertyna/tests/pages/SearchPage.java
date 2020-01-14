@@ -1,6 +1,6 @@
 package com.qwertyna.tests.pages;
 
-import com.qwertyna.tests.utils.DriverManager;
+import com.qwertyna.tests.DriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -34,7 +34,7 @@ public class SearchPage {
     private WebElement cookiesBar;
 
     public SearchPage() {
-        PageFactory.initElements(DriverManager.getInstance().driver, this);
+        PageFactory.initElements(DriverManager.getInstance().getDriver(), this);
     }
 
     public void inputToSearchField(String input) {
@@ -76,7 +76,7 @@ public class SearchPage {
     }
 
     private void clickNextButton() {
-        WebDriver driver = DriverManager.getInstance().driver;
+        WebDriver driver = DriverManager.getInstance().getDriver();
         DriverManager.getInstance().waitElementToBeClickable(nextBtnLocator, 120);
         driver.findElement(nextBtnLocator).click();
     }
@@ -119,6 +119,7 @@ public class SearchPage {
         }
         return price;
     }
+
 
 
 }

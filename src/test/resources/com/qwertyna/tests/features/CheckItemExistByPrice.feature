@@ -1,3 +1,4 @@
+@onTestComplete
 Feature: Check item price on fist 5 pages
 
 Scenario: Check TV item exist by price

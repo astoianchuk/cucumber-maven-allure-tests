@@ -1,4 +1,4 @@
-package com.qwertyna.tests.utils;
+package com.qwertyna.tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverManager {
     private static DriverManager instance;
-    public WebDriver driver;
+    private ThreadLocal<WebDriver> driver = new ThreadLocal<>();;
 
     private DriverManager() {
     }
@@ -36,35 +36,35 @@ public class DriverManager {
         switch (browserStr) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                driver.set(new ChromeDriver());
                 break;
             case "fireFox":
                 WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
+                driver.set(new FirefoxDriver());
                 break;
             case "edge":
                 WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
+                driver.set(new EdgeDriver());
                 break;
             case "opera":
                 WebDriverManager.operadriver().setup();
-                driver = new OperaDriver();
+                driver.set(new OperaDriver());
                 break;
             case "InternetExplorer":
                 WebDriverManager.iedriver().setup();
-                driver = new InternetExplorerDriver();
+                driver.set(new InternetExplorerDriver());
                 break;
             default:
                 throw new Error("browser " + browserStr + " not defined");
         }
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        driver.get().manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 
     }
 
     public void driverDestroy() {
         if (driver != null) {
-            // driver.quit();
-            // driver.close();
+             driver.get().quit();
+            // driver.get().close();
         }
     }
 
@@ -73,7 +73,7 @@ public class DriverManager {
         WebDriverWait wait;
         if (timeoutInSec.length > 0)
             timeout = timeoutInSec[0];
-        wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait = new WebDriverWait(driver.get(), Duration.ofSeconds(timeout));
         wait.until(ExpectedConditions.elementToBeClickable(btnElement));
     }
 
@@ -82,7 +82,7 @@ public class DriverManager {
         WebDriverWait wait;
         if (timeoutInSec.length > 0)
             timeout = timeoutInSec[0];
-        wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait = new WebDriverWait(driver.get(), Duration.ofSeconds(timeout));
         try {
             wait.until(ExpectedConditions.numberOfElementsToBe(pagePreloaderLocator, 1));
             wait.until(ExpectedConditions.numberOfElementsToBe(pagePreloaderLocator, 0));
@@ -91,4 +91,7 @@ public class DriverManager {
         }
     }
 
+    public WebDriver getDriver() {
+        return driver.get();
+    }
 }
