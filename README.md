@@ -6,17 +6,13 @@ Automated UI test cases for https://www.olx.ua/ (Cucumber Java)
 * Java 8 or above
 * Apache Maven 3.6.0 or above
 * [Cucumber plugin](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java/)
-* [Google Chrome](https://google.com/chrome/)
-* [Chrome driver](https://chromedriver.chromium.org/downloads)
+* Support 5 browsers, Chrome browser by default
 
 ## Installation:
 * ``` git clone <repository-url> ```
 
-## Building
-* ```mvn compile```
-
 ## Running
-* ```mvn test```
+* ```mvn -Dbrowser=<browser> clean verify```
 
 ## Building Report 
 * ```mvn clean test```
