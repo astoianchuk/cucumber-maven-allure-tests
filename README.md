@@ -8,13 +8,14 @@ Tests can be executing parallel using cucumber4 feature
 * Apache Maven 3.6.0 or above
 * Cucumber 4 or above
 * [Cucumber plugin](https://plugins.jetbrains.com/plugin/7212-cucumber-for-java/)
-* Support 5 browsers, Chrome browser by default
+* Chrome browser by default
 
 ## Installation:
 * ``` git clone <repository-url> ```
 
 ## Running
 * ```mvn -Dbrowser=<browser> clean verify```
+//supported browsers: chrome, fireFox, edge, opera, InternetExplorer
 
 ## Building Report 
 * ```mvn clean test```
