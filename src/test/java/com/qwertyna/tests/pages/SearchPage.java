@@ -1,7 +1,6 @@
 package com.qwertyna.tests.pages;
 
 import com.qwertyna.tests.utils.DriverManager;
-import com.qwertyna.tests.utils.WebDriverHelper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -70,7 +69,7 @@ public class SearchPage {
             regularListItems = regularOfers.findElements(wrapLocator);
             if (offerPriceExistOnPage(price)) return true;
             if (i != pageCount) clickNextButton();
-            WebDriverHelper.waitUntilPageContentLoaded(pagePreloaderLocator, 5);
+            DriverManager.getInstance().waitUntilPageContentLoaded(pagePreloaderLocator, 5);
             System.out.println("Complete check page: " + i);
         }
         return false;
@@ -78,7 +77,7 @@ public class SearchPage {
 
     private void clickNextButton() {
         WebDriver driver = DriverManager.getInstance().driver;
-        WebDriverHelper.waitElementToBeClickable(nextBtnLocator, 120);
+        DriverManager.getInstance().waitElementToBeClickable(nextBtnLocator, 120);
         driver.findElement(nextBtnLocator).click();
     }
 
