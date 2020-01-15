@@ -1,5 +1,5 @@
 # tests
-Automated UI tests for https://www.olx.ua/ (Cucumber Java)
+Automated UI tests (Cucumber Java)
 Tests can be executing parallel using cucumber4 feature
 
 ## Usage:
