@@ -1,4 +1,4 @@
-# olx-tests
+# tests
 Automated UI tests for https://www.olx.ua/ (Cucumber Java)
 Tests can be executing parallel using cucumber4 feature
 
